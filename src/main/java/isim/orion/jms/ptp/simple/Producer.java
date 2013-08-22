@@ -29,8 +29,7 @@ public class Producer {
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);
   }
   
-  public void sendMessage() throws IOException{
-    String message = "Hello World";
+  public void sendMessage(String message) throws IOException{
     channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
     System.out.println(" [x] Sent '" + message + "'");
     cleanUp();

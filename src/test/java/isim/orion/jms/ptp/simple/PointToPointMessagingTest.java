@@ -20,10 +20,11 @@ public class PointToPointMessagingTest {
   }
   
   @Test
-  public void producerCanSendMessage() throws IOException{
-    Producer producer = new Producer();
+  public void producerCanSendMessage(){
     try{
-      producer.sendMessage();
+      String message = "Hello Queue";
+      Producer producer = new Producer();
+      producer.sendMessage(message);
     } catch(IOException e){
       Assert.fail("Producer failed to send message to queue.");
     }
@@ -31,8 +32,9 @@ public class PointToPointMessagingTest {
 
   @Test
   public void consumerCanReceiveMessage() throws IOException, InterruptedException{
+    String message = "Hello Queue";
     Producer producer = new Producer();
-    producer.sendMessage();
+    producer.sendMessage(message);
     Consumer consumer = new Consumer();
     consumer.receiveMessage();
     Assert.assertEquals("Hello World", consumer.lastReceivedMessage());
