@@ -15,22 +15,29 @@ import com.rabbitmq.client.QueueingConsumer;
 public class Consumer {
   
   private final static String QUEUE_NAME = "hello";
+  private Channel channel;
+  private Connection connection;
   
-  public String receiveMessage() throws IOException,InterruptedException{
-    
+  public Consumer() throws IOException{
+    initChannel();
+  }
+  
+  private void initChannel() throws IOException{
     ConnectionFactory factory = new ConnectionFactory();
     factory.setHost("localhost");
-    Connection connection = factory.newConnection();
-    Channel channel = connection.createChannel();
+    connection = factory.newConnection();
+    channel = connection.createChannel();
     
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);
     System.out.println(" [*] Waiting for messages. To exit press CTRL + C");
-    
+  }
+  
+  public String receiveMessage() throws IOException,InterruptedException{
     // callback to buffer the messages
-    QueueingConsumer consumer = new QueueingConsumer(channel);
-    channel.basicConsume(QUEUE_NAME, true, consumer);
+    QueueingConsumer queueConsumer = new QueueingConsumer(channel);
+    channel.basicConsume(QUEUE_NAME, true, queueConsumer);
     while(true){
-      QueueingConsumer.Delivery delivery = consumer.nextDelivery();
+      QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
       String message = new String(delivery.getBody());
       System.out.println(" [x] Received: '" + message + "'");
       return message;

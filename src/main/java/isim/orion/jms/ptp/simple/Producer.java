@@ -14,19 +14,33 @@ import com.rabbitmq.client.ConnectionFactory;
 public class Producer {
 
   private final static String QUEUE_NAME = "hello";
+  private Channel channel;
+  private Connection connection;
   
-  public boolean sendMessage() throws IOException{
-    
+  public Producer() throws IOException{
+    initChannel();
+  }
+  
+  private void initChannel() throws IOException{
     ConnectionFactory factory = new ConnectionFactory();
     factory.setHost("localhost");
-    Connection connection = factory.newConnection();
-    Channel channel = connection.createChannel();
+    connection = factory.newConnection();
+    channel = connection.createChannel();
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+  }
+  
+  public boolean sendMessage() throws IOException{
     String message = "Hello World";
     channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
     System.out.println(" [x] Sent '" + message + "'");
-    channel.close();
-    connection.close();
+    cleanUp();
     return true;
+  }
+  
+  private void cleanUp() throws IOException{
+    if(channel != null)
+      channel.close();
+    if(connection != null)
+      connection.close();
   }
 }

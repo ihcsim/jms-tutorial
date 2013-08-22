@@ -14,7 +14,7 @@ public class PointToPointMessagingTest {
   }
   
   @Test
-  public void canCreateConsumer(){
+  public void canCreateConsumer() throws IOException{
     Consumer consumer = new Consumer();
     Assert.assertNotNull(consumer);
   }
@@ -27,7 +27,10 @@ public class PointToPointMessagingTest {
 
   @Test
   public void consumerCanReceiveMessage() throws IOException, InterruptedException{
+    Producer producer = new Producer();
+    producer.sendMessage();
     Consumer consumer = new Consumer();
+    consumer.receiveMessage();
     Assert.assertEquals("Hello World", consumer.receiveMessage());
   }
 }
