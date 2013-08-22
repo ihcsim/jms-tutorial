@@ -6,6 +6,35 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class PointToPointMessagingTest {
+  
+  @Test
+  public void producerCanSendMessageTest(){
+    try{
+      String message = "Hello Queue";
+      Producer producer = new Producer();
+      producer.sendMessage(message);
+    } catch(IOException e){
+      Assert.fail("Producer failed to send message to queue.");
+    }
+  }
+
+  @Test
+  public void consumerCanReceiveMessageTest() throws IOException{
+    try{
+      String message = "Hello Queue";
+      Producer producer = new Producer();
+      producer.sendMessage(message);
+      
+      Consumer consumer = new Consumer();
+      while(consumer.isConnected()) {
+        String messageReceived = consumer.receiveMessage();
+        Assert.assertEquals("Hello Queue", messageReceived);
+        consumer.disconnect();
+      }
+    } catch(InterruptedException e){
+      Assert.fail("Consumer failed to receive messages from queue.");
+    }
+  }
 
   @Test
   public void canCreateProducerTest(){
@@ -65,35 +94,6 @@ public class PointToPointMessagingTest {
       Assert.assertTrue(!consumer.isConnected());
     } catch(IOException e){
       Assert.fail("Failed to create Consumer.");
-    }
-  }
-  
-  @Test
-  public void producerCanSendMessageTest(){
-    try{
-      String message = "Hello Queue";
-      Producer producer = new Producer();
-      producer.sendMessage(message);
-    } catch(IOException e){
-      Assert.fail("Producer failed to send message to queue.");
-    }
-  }
-
-  @Test
-  public void consumerCanReceiveMessageTest() throws IOException{
-    try{
-      String message = "Hello Queue";
-      Producer producer = new Producer();
-      producer.sendMessage(message);
-      
-      Consumer consumer = new Consumer();
-      while(consumer.isConnected()) {
-        String messageReceived = consumer.receiveMessage();
-        Assert.assertEquals("Hello Queue", messageReceived);
-        consumer.disconnect();
-      }
-    } catch(InterruptedException e){
-      Assert.fail("Consumer failed to receive messages from queue.");
     }
   }
 }
