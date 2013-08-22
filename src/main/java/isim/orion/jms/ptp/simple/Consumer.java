@@ -12,7 +12,7 @@ import com.rabbitmq.client.QueueingConsumer;
  * @author isim
  *
  */
-public class Receiver {
+public class Consumer {
   
   private final static String QUEUE_NAME = "hello";
   
