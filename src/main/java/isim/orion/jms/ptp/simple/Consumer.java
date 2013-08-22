@@ -27,6 +27,20 @@ public class Consumer {
     initReceivedMessagesBuffer();
   }
   
+  private void initChannel() throws IOException{
+    ConnectionFactory factory = new ConnectionFactory();
+    factory.setHost("localhost");
+    connection = factory.newConnection();
+    channel = connection.createChannel();
+    
+    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+    System.out.println(" [*] Waiting for messages. To exit press CTRL + C");
+  }
+  
+  private void initReceivedMessagesBuffer() {
+    receivedMessages = new ArrayList<String>();
+  }
+  
   public void receiveMessage() throws IOException,InterruptedException{
     // callback to buffer the messages
     QueueingConsumer queueConsumer = new QueueingConsumer(channel);
@@ -45,19 +59,5 @@ public class Consumer {
   
   public int numReceivedMessages(){
     return receivedMessages.size();
-  }
-  
-  private void initChannel() throws IOException{
-    ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("localhost");
-    connection = factory.newConnection();
-    channel = connection.createChannel();
-    
-    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-    System.out.println(" [*] Waiting for messages. To exit press CTRL + C");
-  }
-  
-  private void initReceivedMessagesBuffer() {
-    receivedMessages = new ArrayList<String>();
   }
 }
