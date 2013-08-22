@@ -8,7 +8,7 @@ import org.junit.Test;
 public class PointToPointMessagingTest {
 
   @Test
-  public void canCreateProducer(){
+  public void canCreateProducerTest(){
     try{
       Producer producer = new Producer();
       Assert.assertNotNull(producer);
@@ -18,7 +18,7 @@ public class PointToPointMessagingTest {
   }
   
   @Test
-  public void canConnectProducerToQueue(){
+  public void canConnectProducerToQueueTest(){
     try{
       Producer producer = new Producer();
       Assert.assertTrue(producer.isConnected());
@@ -27,7 +27,7 @@ public class PointToPointMessagingTest {
     }
   }
   
-  public void canDisconnectProducerFromQueue(){
+  public void canDisconnectProducerFromQueueTest(){
     try{
       Producer producer = new Producer();
       producer.disconnect();
@@ -38,7 +38,7 @@ public class PointToPointMessagingTest {
   }
   
   @Test
-  public void canCreateConsumer(){
+  public void canCreateConsumerTest(){
     try{
       Consumer consumer = new Consumer();
       Assert.assertNotNull(consumer);
@@ -48,7 +48,7 @@ public class PointToPointMessagingTest {
   }
   
   @Test
-  public void canConnectConsumerToQueue(){
+  public void canConnectConsumerToQueueTest(){
     try{
       Consumer consumer = new Consumer();
       Assert.assertTrue(consumer.isConnected());
@@ -58,7 +58,7 @@ public class PointToPointMessagingTest {
   }
   
   @Test
-  public void canDisconnectConsumerFromQueue(){
+  public void canDisconnectConsumerFromQueueTest(){
     try{
       Consumer consumer = new Consumer();
       consumer.disconnect();
@@ -69,7 +69,7 @@ public class PointToPointMessagingTest {
   }
   
   @Test
-  public void producerCanSendMessage(){
+  public void producerCanSendMessageTest(){
     try{
       String message = "Hello Queue";
       Producer producer = new Producer();
@@ -80,7 +80,7 @@ public class PointToPointMessagingTest {
   }
 
   @Test
-  public void consumerCanReceiveMessage() throws IOException{
+  public void consumerCanReceiveMessageTest() throws IOException{
     try{
       String message = "Hello Queue";
       Producer producer = new Producer();
