@@ -21,18 +21,18 @@ public class Producer {
     initChannel();
   }
   
+  public void sendMessage(String message) throws IOException{
+    channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+    System.out.println(" [x] Sent '" + message + "'");
+    cleanUp();
+  }
+  
   private void initChannel() throws IOException{
     ConnectionFactory factory = new ConnectionFactory();
     factory.setHost("localhost");
     connection = factory.newConnection();
     channel = connection.createChannel();
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-  }
-  
-  public void sendMessage(String message) throws IOException{
-    channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-    System.out.println(" [x] Sent '" + message + "'");
-    cleanUp();
   }
   
   private void cleanUp() throws IOException{
