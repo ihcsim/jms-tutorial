@@ -1,6 +1,8 @@
 package isim.orion.jms.ptp.simple;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -18,8 +20,11 @@ public class Consumer {
   private Channel channel;
   private Connection connection;
   
+  private List<String> receivedMessages; 
+  
   public Consumer() throws IOException{
     initChannel();
+    receivedMessages = new ArrayList<String>();
   }
   
   private void initChannel() throws IOException{
@@ -40,7 +45,16 @@ public class Consumer {
       QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
       String message = new String(delivery.getBody());
       System.out.println(" [x] Received: '" + message + "'");
+      receivedMessages.add(message);
       return message;
     }
+  }
+  
+  public String lastReceivedMessage(){
+    return receivedMessages.get(receivedMessages.size() - 1);
+  }
+  
+  public int numReceivedMessages(){
+    return receivedMessages.size();
   }
 }

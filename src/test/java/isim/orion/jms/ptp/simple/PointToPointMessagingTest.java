@@ -35,7 +35,8 @@ public class PointToPointMessagingTest {
     producer.sendMessage();
     Consumer consumer = new Consumer();
     consumer.receiveMessage();
-    Assert.assertEquals("Hello World", consumer.receiveMessage());
+    Assert.assertEquals("Hello World", consumer.lastReceivedMessage());
+    Assert.assertEquals(1, consumer.numReceivedMessages());
   }
 }
 
