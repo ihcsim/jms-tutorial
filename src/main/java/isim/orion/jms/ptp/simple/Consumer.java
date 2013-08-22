@@ -16,7 +16,7 @@ import com.rabbitmq.client.QueueingConsumer;
  */
 public class Consumer {
   
-  private final static String QUEUE_NAME = "hello";
+  private final static String QUEUE_NAME = "default";
   private Channel channel;
   private Connection connection;
   
