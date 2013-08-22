@@ -22,7 +22,11 @@ public class PointToPointMessagingTest {
   @Test
   public void producerCanSendMessage() throws IOException{
     Producer producer = new Producer();
-    Assert.assertTrue(producer.sendMessage());
+    try{
+      producer.sendMessage();
+    } catch(IOException e){
+      Assert.fail("Producer failed to send message to queue.");
+    }
   }
 
   @Test
