@@ -38,7 +38,7 @@ public class Consumer {
     QueueingConsumer queueConsumer = new QueueingConsumer(channel);
     channel.basicConsume(QUEUE_NAME, true, queueConsumer);
     
-    // consumer never dies
+    // consumer remains in suspend until message arrives
     while(true){
       QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
       String message = new String(delivery.getBody());
