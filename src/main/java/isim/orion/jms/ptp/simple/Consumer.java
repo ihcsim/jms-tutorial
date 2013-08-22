@@ -37,7 +37,7 @@ public class Consumer {
     System.out.println(" [*] Waiting for messages. To exit press CTRL + C");
   }
   
-  public String receiveMessage() throws IOException,InterruptedException{
+  public void receiveMessage() throws IOException,InterruptedException{
     // callback to buffer the messages
     QueueingConsumer queueConsumer = new QueueingConsumer(channel);
     channel.basicConsume(QUEUE_NAME, true, queueConsumer);
@@ -46,7 +46,6 @@ public class Consumer {
       String message = new String(delivery.getBody());
       System.out.println(" [x] Received: '" + message + "'");
       receivedMessages.add(message);
-      return message;
     }
   }
   
