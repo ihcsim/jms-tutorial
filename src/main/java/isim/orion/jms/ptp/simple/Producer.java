@@ -33,13 +33,15 @@ public class Producer {
   public void sendMessage(String message) throws IOException{
     channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
     System.out.println(" [x] Sent '" + message + "'");
-    cleanUp();
+    disconnect();
   }
   
-  private void cleanUp() throws IOException{
-    if(channel != null)
-      channel.close();
-    if(connection != null)
-      connection.close();
+  public boolean isConnected(){
+    return connection.isOpen() && channel.isOpen();
+  }
+  
+  public void disconnect() throws IOException{
+    channel.close();
+    connection.close();
   }
 }
