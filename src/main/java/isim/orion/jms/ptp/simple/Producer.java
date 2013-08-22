@@ -15,7 +15,7 @@ public class Producer {
 
   private final static String QUEUE_NAME = "hello";
   
-  public static void main(String[] argv) throws IOException{
+  public boolean sendMessage() throws IOException{
     
     ConnectionFactory factory = new ConnectionFactory();
     factory.setHost("localhost");
@@ -27,5 +27,6 @@ public class Producer {
     System.out.println(" [x] Sent '" + message + "'");
     channel.close();
     connection.close();
+    return true;
   }
 }

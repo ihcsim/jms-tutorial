@@ -16,7 +16,7 @@ public class Consumer {
   
   private final static String QUEUE_NAME = "hello";
   
-  public static void main(String[] argv) throws IOException,InterruptedException{
+  public String receiveMessage() throws IOException,InterruptedException{
     
     ConnectionFactory factory = new ConnectionFactory();
     factory.setHost("localhost");
@@ -33,6 +33,7 @@ public class Consumer {
       QueueingConsumer.Delivery delivery = consumer.nextDelivery();
       String message = new String(delivery.getBody());
       System.out.println(" [x] Received: '" + message + "'");
+      return message;
     }
   }
 }
