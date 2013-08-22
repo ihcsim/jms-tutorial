@@ -14,6 +14,7 @@ import com.rabbitmq.client.ConnectionFactory;
 public class Producer {
 
   private final static String QUEUE_NAME = "default";
+  private final static String DEFAULT_HOST = "localhost";
   private Channel channel;
   private Connection connection;
   
@@ -23,7 +24,7 @@ public class Producer {
   
   private void initChannel() throws IOException{
     ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("localhost");
+    factory.setHost(DEFAULT_HOST);
     connection = factory.newConnection();
     channel = connection.createChannel();
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);

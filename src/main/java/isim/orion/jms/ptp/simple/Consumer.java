@@ -17,6 +17,7 @@ import com.rabbitmq.client.QueueingConsumer;
 public class Consumer {
   
   private final static String QUEUE_NAME = "default";
+  private final static String DEFAULT_HOST = "localhost";
   private Channel channel;
   private Connection connection;
   
@@ -29,7 +30,7 @@ public class Consumer {
   
   private void initChannel() throws IOException{
     ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("localhost");
+    factory.setHost(DEFAULT_HOST);
     connection = factory.newConnection();
     channel = connection.createChannel();
     
