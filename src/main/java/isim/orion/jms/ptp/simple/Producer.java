@@ -13,7 +13,7 @@ import com.rabbitmq.client.ConnectionFactory;
  */
 public class Producer {
 
-  private final static String QUEUE_NAME = "default";
+  private final static String QUEUE_NAME = "test-queue";
   private final static String DEFAULT_HOST = "localhost";
   private Channel channel;
   private Connection connection;
