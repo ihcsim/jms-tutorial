@@ -26,11 +26,7 @@ public class PointToPointMessagingTest {
       producer.sendMessage(message);
       
       Consumer consumer = new Consumer();
-      while(consumer.isConnected()) {
-        String messageReceived = consumer.receiveMessage();
-        Assert.assertEquals("Hello Queue", messageReceived);
-        consumer.disconnect();
-      }
+      Assert.assertEquals("Hello Queue", consumer.receiveMessage());
     } catch(InterruptedException e){
       Assert.fail("Consumer failed to receive messages from queue.");
     }

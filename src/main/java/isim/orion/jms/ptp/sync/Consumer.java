@@ -30,7 +30,6 @@ public class Consumer {
     channel = connection.createChannel();
     
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-    System.out.println(" [*] Waiting for messages. To exit press CTRL + C");
   }
 
   public String receiveMessage() throws IOException,InterruptedException{
@@ -39,12 +38,8 @@ public class Consumer {
     channel.basicConsume(QUEUE_NAME, true, queueConsumer);
     
     // consumer remains in suspend until message arrives
-    while(true){
-      QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
-      String message = new String(delivery.getBody());
-      System.out.println(" [x] Received: '" + message + "'");
-      return message;
-    }
+    QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
+    return new String(delivery.getBody());
   }
 
   public void disconnect() throws IOException{

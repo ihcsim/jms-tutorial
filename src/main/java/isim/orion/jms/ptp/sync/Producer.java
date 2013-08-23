@@ -32,7 +32,6 @@ public class Producer {
   
   public void sendMessage(String message) throws IOException{
     channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-    System.out.println(" [x] Sent '" + message + "'");
     disconnect();
   }
   
