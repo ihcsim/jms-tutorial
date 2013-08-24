@@ -3,8 +3,6 @@ package isim.orion.jms.ptp.sync;
 import java.io.IOException;
 
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 
 /**
  * Sends messages to the message queue.
@@ -12,35 +10,28 @@ import com.rabbitmq.client.ConnectionFactory;
  *
  */
 public class Producer {
-
-  private final static String QUEUE_NAME = "test-queue";
-  private final static String DEFAULT_HOST = "localhost";
+  
   private Channel channel;
-  private Connection connection;
+  private String queue;
   
-  public Producer() throws IOException{
-    initChannel();
-  }
-  
-  private void initChannel() throws IOException{
-    ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost(DEFAULT_HOST);
-    connection = factory.newConnection();
-    channel = connection.createChannel();
-    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+  public Producer(Channel channel, String queue) throws IOException{
+    this.channel = channel;
+    this.queue = queue;
   }
   
   public void sendMessage(String message) throws IOException{
-    channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+    channel.basicPublish("", queue, null, message.getBytes());
     disconnect();
   }
   
   public boolean isConnected(){
-    return connection.isOpen() && channel.isOpen();
+    if(channel == null)
+      return false;
+    return channel.isOpen();
   }
   
   public void disconnect() throws IOException{
-    channel.close();
-    connection.close();
+    if(channel != null)
+      channel.close();
   }
 }
