@@ -26,7 +26,7 @@ public class PointToPointMessagingTest {
   }
 
   @Test
-  public void consumerCanReceiveMessageTest() throws IOException{
+  public void consumerCanReceiveMessageTest() {
     try{
       String message = "Hello Queue";
       
@@ -36,8 +36,8 @@ public class PointToPointMessagingTest {
       
       Consumer consumer = new Consumer();
       Assert.assertEquals(message, consumer.receiveMessage());
-    } catch(InterruptedException e){
-      Assert.fail("Consumer failed to receive messages from queue.");
+    } catch(Exception e){
+      Assert.fail("Consumer failed to send message to queue.");
     }
   }
 }
