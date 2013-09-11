@@ -25,6 +25,16 @@ public class PointToPointMessagingTest {
       Assert.fail("Producer failed to send message to queue.");
     }
   }
+  
+  @Test(expected=IllegalArgumentException.class)
+  public void testProducer_CantSendNullObject() throws IOException{
+    String message = null;
+
+    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+    Producer producer = new Producer(channel, QUEUE_NAME);
+    producer.sendMessage(message);
+    producer.disconnect();
+  }
 
   @Test
   public void testConsumer_CanReceiveShortString() {
@@ -62,16 +72,6 @@ public class PointToPointMessagingTest {
     } catch(Exception e){
       Assert.fail("Consumer failed to send message to queue.");
     }
-  }
-  
-  @Test(expected=IllegalArgumentException.class)
-  public void testProducer_CantSendNullObject() throws IOException{
-    String message = null;
-
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Producer producer = new Producer(channel, QUEUE_NAME);
-    producer.sendMessage(message);
-    producer.disconnect();
   }
 }
 
