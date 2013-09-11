@@ -45,13 +45,15 @@ public class PointToPointMessagingTest {
       Producer producer = new Producer(channel, QUEUE_NAME);
       producer.sendMessage(message);
       
-      Consumer consumer = new Consumer();
+      Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+      Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
       Assert.assertEquals(message, consumer.receiveMessage());
       
       producer.disconnect();
       consumer.disconnect();
     } catch(Exception e){
-      Assert.fail("Consumer failed to send message to queue.");
+      Assert.fail("Consumer failed to send message to queue: " + e.getMessage());
+      e.printStackTrace();
     }
   }
   
@@ -64,13 +66,14 @@ public class PointToPointMessagingTest {
       Producer producer = new Producer(channel, QUEUE_NAME);
       producer.sendMessage(message);
       
-      Consumer consumer = new Consumer();
+      Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+      Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
       Assert.assertEquals("", consumer.receiveMessage());
       
       producer.disconnect();
       consumer.disconnect();
     } catch(Exception e){
-      Assert.fail("Consumer failed to send message to queue.");
+      Assert.fail("Consumer failed to send message to queue: " + e.getMessage());
     }
   }
 }

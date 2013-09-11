@@ -18,9 +18,11 @@ public class Consumer {
   private final static String DEFAULT_HOST = "localhost";
   private Channel channel;
   private Connection connection;
+  private String queue;
   
-  public Consumer() throws IOException{
-    initChannel();
+  public Consumer(Channel channel, String queue) throws IOException{
+    this.channel = channel;
+    this.queue = queue;
   }
   
   private void initChannel() throws IOException{
@@ -35,7 +37,7 @@ public class Consumer {
   public String receiveMessage() throws IOException,InterruptedException{
     // callback to buffer the messages
     QueueingConsumer queueConsumer = new QueueingConsumer(channel);
-    channel.basicConsume(QUEUE_NAME, true, queueConsumer);
+    channel.basicConsume(queue, true, queueConsumer);
     
     // consumer remains in suspend until message arrives
     QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
@@ -44,10 +46,9 @@ public class Consumer {
 
   public void disconnect() throws IOException{
     channel.close();
-    connection.close();
   }
   
   public boolean isConnected() {
-    return connection.isOpen() && channel.isOpen();
+    return channel.isOpen();
   }
 }
