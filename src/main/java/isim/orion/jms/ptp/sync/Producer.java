@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.rabbitmq.client.Channel;
 
 /**
- * Sends messages to the message queue.
+ * Sends a single message to the message queue.
  * @author isim
  *
  */
