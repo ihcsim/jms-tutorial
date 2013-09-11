@@ -20,8 +20,9 @@ public class Producer {
   }
   
   public void sendMessage(String message) throws IOException{
+    if(message == null)
+      throw new IllegalArgumentException();
     channel.basicPublish("", queue, null, message.getBytes());
-    disconnect();
   }
   
   public boolean isConnected(){
