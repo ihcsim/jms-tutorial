@@ -24,15 +24,6 @@ public class Consumer {
     this.channel = channel;
     this.queue = queue;
   }
-  
-  private void initChannel() throws IOException{
-    ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost(DEFAULT_HOST);
-    connection = factory.newConnection();
-    channel = connection.createChannel();
-    
-    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-  }
 
   public String receiveMessage() throws IOException,InterruptedException{
     // callback to buffer the messages
