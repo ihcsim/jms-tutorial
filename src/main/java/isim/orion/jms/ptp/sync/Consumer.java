@@ -3,21 +3,16 @@ package isim.orion.jms.ptp.sync;
 import java.io.IOException;
 
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
 
 /**
- * Reads messages from the message queue.
+ * Reads a single message from the message queue.
  * @author isim
  *
  */
 public class Consumer {
   
-  private final static String QUEUE_NAME = "test-queue";
-  private final static String DEFAULT_HOST = "localhost";
   private Channel channel;
-  private Connection connection;
   private String queue;
   
   public Consumer(Channel channel, String queue) throws IOException{
