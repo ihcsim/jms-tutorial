@@ -13,7 +13,7 @@ public class PointToPointMessagingTest {
   private final static String QUEUE_NAME = "test-queue";
   
   @Test
-  public void producerCanSendMessageTest(){
+  public void testProducer_CanSendMessage(){
     try{
       Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
       Producer producer = new Producer(channel, QUEUE_NAME);
@@ -27,7 +27,7 @@ public class PointToPointMessagingTest {
   }
 
   @Test
-  public void consumerCanReceiveMessageTest_ShortString() {
+  public void testConsumer_CanReceiveShortString() {
     try{
       String message = "Hello Queue";
       
@@ -46,7 +46,7 @@ public class PointToPointMessagingTest {
   }
   
   @Test
-  public void consumerCanReceiveMessageTest_EmptyString(){
+  public void testConsumer_CanReceiveEmptyString(){
     try{
       String message = "";
       
@@ -65,7 +65,7 @@ public class PointToPointMessagingTest {
   }
   
   @Test(expected=IllegalArgumentException.class)
-  public void consumerCantSendNullObjectTest() throws IOException{
+  public void testProducer_CantSendNullObject() throws IOException{
     String message = null;
 
     Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
