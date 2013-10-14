@@ -29,6 +29,26 @@ public class ConsumerInitTest {
   }
   
   @Test
+  public void canCreateMultipleConsumersTest() {
+    try{
+      Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+      Consumer consumer1 = new Consumer(channel, QUEUE_NAME);
+      Assert.assertTrue(consumer1.isConnected());
+      
+      Consumer consumer2 = new Consumer(channel, QUEUE_NAME);
+      Assert.assertTrue(consumer2.isConnected());
+      
+      Consumer consumer3 = new Consumer(channel, QUEUE_NAME);
+      Assert.assertTrue(consumer3.isConnected());
+      
+      Consumer consumer4 = new Consumer(channel, QUEUE_NAME);
+      Assert.assertTrue(consumer4.isConnected());
+    } catch(IOException e){
+      Assert.fail("Failed to create Consumer.");
+    }
+  }
+  
+  @Test
   public void canConnectConsumerToQueueTest(){
     try{
       Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
