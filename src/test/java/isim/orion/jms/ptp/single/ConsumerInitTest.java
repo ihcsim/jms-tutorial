@@ -1,4 +1,4 @@
-package isim.orion.jms.ptp.sync;
+package isim.orion.jms.ptp.single;
 
 import java.io.IOException;
 
