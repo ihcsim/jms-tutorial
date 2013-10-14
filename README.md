@@ -6,3 +6,6 @@ Here are a number of useful references:
 * [RabbitMQ download and installation instructions](http://www.rabbitmq.com/download.html)
 * [RabbitMQ tutorials](http://www.rabbitmq.com/getstarted.html)
 * [RabbitMQ Management Plugin installation instructions](http://www.rabbitmq.com/management.html)
+
+Tips:
+* To help clear any messages linger in the queue, access the Queue using the RabbitMQ Management console, and clear the queue by using the 'Get Messages' section with the 'Requeue' option set to 'No'.
