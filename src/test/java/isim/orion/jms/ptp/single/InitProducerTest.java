@@ -12,7 +12,7 @@ import com.rabbitmq.client.Channel;
  * @author isim
  *
  */
-public class ProducerInitTest {
+public class InitProducerTest {
   
   private static final String DEFAULT_HOST = "localhost";
   private final static String QUEUE_NAME = "test-queue";

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.rabbitmq.client.Channel;
 
-public class PointToPointMessagingTest {
+public class SinglePointMessagingTest {
   
   private static final String DEFAULT_HOST = "localhost";
   private final static String QUEUE_NAME = "test-queue";
