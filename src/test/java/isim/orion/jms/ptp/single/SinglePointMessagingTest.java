@@ -34,18 +34,18 @@ public class SinglePointMessagingTest {
 
   @Test
   public void testConsumer_CanReceiveShortString() {
-//    String message = "Hello Queue";
-//    
-//    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-//    Producer producer = new Producer(channel, QUEUE_NAME);
-//    producer.sendSingleMessage(message);
-//    
-//    Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-//    Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
-//    Assert.assertEquals(message, consumer.receiveSingleMessage());
-//    
-//    producer.disconnect();
-//    consumer.disconnect();
+    String message = "Hello Queue";
+    
+    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+    Producer producer = new Producer(channel, QUEUE_NAME);
+    producer.sendSingleMessage(message);
+    
+    Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+    Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
+    Assert.assertEquals(message, consumer.receiveSingleMessage());
+    
+    producer.disconnect();
+    consumer.disconnect();
   }
   
   @Test
