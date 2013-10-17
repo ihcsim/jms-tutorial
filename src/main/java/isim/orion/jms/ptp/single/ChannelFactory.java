@@ -18,12 +18,16 @@ public class ChannelFactory {
    * @param queue Name of the message queue.
    * @param host Hostname of the entity hosting the message queue.
    */
-  public static Channel open(String queue, String host) throws IOException{
-    ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost(host);
-    Connection connection = factory.newConnection();
-    Channel channel = connection.createChannel();
-    channel.queueDeclare(queue, false, false, false, null);
-    return channel;
+  public static Channel open(String queue, String host) {
+    try{
+      ConnectionFactory factory = new ConnectionFactory();
+      factory.setHost(host);
+      Connection connection = factory.newConnection();
+      Channel channel = connection.createChannel();
+      channel.queueDeclare(queue, false, false, false, null);
+      return channel;
+    } catch(IOException e){
+      throw new RuntimeException(e);
+    }
   }
 }

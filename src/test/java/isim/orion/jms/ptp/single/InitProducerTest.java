@@ -1,7 +1,5 @@
 package isim.orion.jms.ptp.single;
 
-import java.io.IOException;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,24 +17,16 @@ public class InitProducerTest {
   
   @Test
   public void canConnectProducerToQueueTest(){
-    try{
-      Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Producer producer = new Producer(channel, QUEUE_NAME);
-      Assert.assertTrue(producer.isConnected());
-    } catch(IOException e){
-      Assert.fail("Failed to create Producer.");
-    }
+    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+    Producer producer = new Producer(channel, QUEUE_NAME);
+    Assert.assertTrue(producer.isConnected());
   }
   
   @Test
   public void canDisconnectProducerFromQueueTest(){
-    try{
-      Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Producer producer = new Producer(channel, QUEUE_NAME);
-      producer.disconnect();
-      Assert.assertTrue(!producer.isConnected());
-    } catch(IOException e){
-      Assert.fail("Failed to create Producer.");
-    }
+    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+    Producer producer = new Producer(channel, QUEUE_NAME);
+    producer.disconnect();
+    Assert.assertTrue(!producer.isConnected());
   }
 }

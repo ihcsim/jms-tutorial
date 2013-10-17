@@ -17,17 +17,18 @@ public class MultiPointsMessagingTest {
   public void canSendToMultiPointsTest(){
     try{
       List<String> messages = generateMultipleFakeMessages();
-      Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Producer producer = new Producer(channel, QUEUE_NAME);
+      Channel producerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+      Producer producer = new Producer(producerChannel, QUEUE_NAME);
       for(String message : generateMultipleFakeMessages())
-        producer.sendMessage(message);
+        producer.sendSingleMessage(message);
       
-      int numExpectedMsgs = messages.size();
-      for(int i = 0; i < numExpectedMsgs; i++) {
-        Consumer consumer = new Consumer(channel, QUEUE_NAME);
-        System.out.println("Message Received: " + consumer.receiveMessage());
-        //consumer.disconnect();
-      }
+//      int numExpectedMsgs = messages.size();
+//      for(int i = 0; i < numExpectedMsgs; i++) {
+      Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+      Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
+      System.out.println("Message Received: " + consumer.receiveSingleMessage());
+      consumer.disconnect();
+//     }
       producer.disconnect();
     } catch (Exception e) {
       e.printStackTrace();

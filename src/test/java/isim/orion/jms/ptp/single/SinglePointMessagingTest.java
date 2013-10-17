@@ -14,16 +14,12 @@ public class SinglePointMessagingTest {
   
   @Test
   public void testProducer_CanSendMessage(){
-    try{
-      Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Producer producer = new Producer(channel, QUEUE_NAME);
+    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+    Producer producer = new Producer(channel, QUEUE_NAME);
       
-      String message = "Hello Queue";
-      producer.sendMessage(message);
-      producer.disconnect();
-    } catch(IOException e){
-      Assert.fail("Producer failed to send message to queue.");
-    }
+    String message = "Hello Queue";
+    producer.sendSingleMessage(message);
+    producer.disconnect();
   }
   
   @Test(expected=IllegalArgumentException.class)
@@ -32,49 +28,40 @@ public class SinglePointMessagingTest {
 
     Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
     Producer producer = new Producer(channel, QUEUE_NAME);
-    producer.sendMessage(message);
+    producer.sendSingleMessage(message);
     producer.disconnect();
   }
 
   @Test
   public void testConsumer_CanReceiveShortString() {
-    try{
-      String message = "Hello Queue";
-      
-      Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Producer producer = new Producer(channel, QUEUE_NAME);
-      producer.sendMessage(message);
-      
-      Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
-      Assert.assertEquals(message, consumer.receiveMessage());
-      
-      producer.disconnect();
-      consumer.disconnect();
-    } catch(Exception e){
-      Assert.fail("Consumer failed to send message to queue: " + e.getMessage());
-      e.printStackTrace();
-    }
+//    String message = "Hello Queue";
+//    
+//    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+//    Producer producer = new Producer(channel, QUEUE_NAME);
+//    producer.sendSingleMessage(message);
+//    
+//    Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+//    Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
+//    Assert.assertEquals(message, consumer.receiveSingleMessage());
+//    
+//    producer.disconnect();
+//    consumer.disconnect();
   }
   
   @Test
   public void testConsumer_CanReceiveEmptyString(){
-    try{
-      String message = "";
-      
-      Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Producer producer = new Producer(channel, QUEUE_NAME);
-      producer.sendMessage(message);
-      
-      Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
-      Assert.assertEquals("", consumer.receiveMessage());
-      
-      producer.disconnect();
-      consumer.disconnect();
-    } catch(Exception e){
-      Assert.fail("Consumer failed to send message to queue: " + e.getMessage());
-    }
+    String message = "";
+    
+    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+    Producer producer = new Producer(channel, QUEUE_NAME);
+    producer.sendSingleMessage(message);
+    
+    Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
+    Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
+    Assert.assertEquals("", consumer.receiveSingleMessage());
+    
+    producer.disconnect();
+    consumer.disconnect();
   }
 }
 

@@ -19,10 +19,14 @@ public class Producer {
     this.queue = queue;
   }
   
-  public void sendMessage(String message) throws IOException {
-    if(message == null)
-      throw new IllegalArgumentException();
-    channel.basicPublish("", queue, null, message.getBytes());
+  public void sendSingleMessage(String message) {
+    try{
+      if(message == null)
+        throw new IllegalArgumentException();
+      channel.basicPublish("", queue, null, message.getBytes());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
   
   public boolean isConnected() {
@@ -31,8 +35,12 @@ public class Producer {
     return channel.isOpen();
   }
   
-  public void disconnect() throws IOException {
-    if(channel != null)
-      channel.close();
+  public void disconnect() {
+    try {
+      if(channel != null)
+        channel.close();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
