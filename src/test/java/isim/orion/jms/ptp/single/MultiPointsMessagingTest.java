@@ -23,8 +23,7 @@ public class MultiPointsMessagingTest {
       
 //      int numExpectedMsgs = messages.size();
 //      for(int i = 0; i < numExpectedMsgs; i++) {
-      Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-      Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
+      Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
       System.out.println("Message Received: " + consumer.receiveSingleMessage());
       consumer.disconnect();
 //     }

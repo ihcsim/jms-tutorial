@@ -3,8 +3,6 @@ package isim.orion.jms.ptp.single;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.rabbitmq.client.Channel;
-
 /**
  * Test the instantiation of the Consumer class.
  * @author isim
@@ -17,38 +15,34 @@ public class InitConsumerTest {
 
   @Test
   public void canCreateConsumerTest(){
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Consumer consumer = new Consumer(channel, QUEUE_NAME);
+    Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertNotNull(consumer);
   }
   
   @Test
   public void canCreateMultipleConsumersTest() {
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Consumer consumer1 = new Consumer(channel, QUEUE_NAME);
+    Consumer consumer1 = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertTrue(consumer1.isConnected());
     
-    Consumer consumer2 = new Consumer(channel, QUEUE_NAME);
+    Consumer consumer2 = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertTrue(consumer2.isConnected());
     
-    Consumer consumer3 = new Consumer(channel, QUEUE_NAME);
+    Consumer consumer3 = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertTrue(consumer3.isConnected());
     
-    Consumer consumer4 = new Consumer(channel, QUEUE_NAME);
+    Consumer consumer4 = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertTrue(consumer4.isConnected());
   }
   
   @Test
   public void canConnectConsumerToQueueTest(){
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Consumer consumer = new Consumer(channel, QUEUE_NAME);
+    Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertTrue(consumer.isConnected());
   }
   
   @Test
   public void canDisconnectConsumerFromQueueTest(){
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Consumer consumer = new Consumer(channel, QUEUE_NAME);
+    Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     consumer.disconnect();
     Assert.assertTrue(!consumer.isConnected());
   }

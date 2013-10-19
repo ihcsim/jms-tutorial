@@ -1,9 +1,5 @@
 package isim.orion.jms.ptp.single;
 
-import java.io.IOException;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.QueueingConsumer;
 
 /**
  * Reads a single message from the message queue.
@@ -12,38 +8,25 @@ import com.rabbitmq.client.QueueingConsumer;
  */
 public class Consumer {
   
-  private Channel channel;
-  private String queue;
+  private Tunnel tunnel;
   
-  public Consumer(Channel channel, String queue) {
-    this.channel = channel;
-    this.queue = queue;
+  public Consumer(String queue, String host) {
+    this.tunnel = Tunnel.newInstance(queue, host);
+  }
+  
+  public Consumer(Tunnel tunnel, String queue){
+    this.tunnel = tunnel;
   }
 
   public String receiveSingleMessage() {
-    try{
-      // callback to buffer the messages
-      QueueingConsumer queueConsumer = new QueueingConsumer(channel);
-      channel.basicConsume(queue, true, queueConsumer);
-      
-      // consumer remains in suspend until message arrives
-      QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
-      return new String(delivery.getBody());
-    } catch(Exception e){
-      throw new RuntimeException(e);
-    }
+    return tunnel.receive();
   }
 
   public void disconnect() {
-    try{
-      channel.queuePurge(queue);
-      channel.close();
-    } catch(IOException e){
-      throw new RuntimeException(e);
-    }
+    tunnel.disconnect();
   }
   
   public boolean isConnected() {
-    return channel.isOpen();
+    return tunnel.isOpen();
   }
 }
