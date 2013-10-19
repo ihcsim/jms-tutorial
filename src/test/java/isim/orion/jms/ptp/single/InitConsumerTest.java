@@ -1,6 +1,7 @@
 package isim.orion.jms.ptp.single;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -12,10 +13,16 @@ public class InitConsumerTest {
   
   private static final String DEFAULT_HOST = "localhost";
   private final static String QUEUE_NAME = "test-queue";
+  
+  private Consumer consumer;
+  
+  @Before
+  public void setUp(){
+    consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
+  }
 
   @Test
   public void canCreateConsumerTest(){
-    Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertNotNull(consumer);
   }
   
@@ -36,13 +43,11 @@ public class InitConsumerTest {
   
   @Test
   public void canConnectConsumerToQueueTest(){
-    Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertTrue(consumer.isConnected());
   }
   
   @Test
   public void canDisconnectConsumerFromQueueTest(){
-    Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
     consumer.disconnect();
     Assert.assertTrue(!consumer.isConnected());
   }
