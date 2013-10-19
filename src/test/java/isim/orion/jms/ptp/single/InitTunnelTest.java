@@ -12,7 +12,7 @@ public class InitTunnelTest {
   
   @Before
   public void setUp(){
-    tunnel = new Tunnel(queue, host);
+    tunnel = Tunnel.newInstance(queue, host);
   }
   
   @Test

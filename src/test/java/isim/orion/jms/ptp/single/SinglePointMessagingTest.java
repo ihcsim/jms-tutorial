@@ -2,7 +2,9 @@ package isim.orion.jms.ptp.single;
 
 import java.io.IOException;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.rabbitmq.client.Channel;
@@ -12,39 +14,45 @@ public class SinglePointMessagingTest {
   private static final String DEFAULT_HOST = "localhost";
   private final static String QUEUE_NAME = "test-queue";
   
+  private Producer producer;
+  
+  @Before
+  public void setUp(){
+    Tunnel tunnel = Tunnel.newInstance(QUEUE_NAME, DEFAULT_HOST);
+    producer = new Producer(tunnel, QUEUE_NAME);
+  }
+  
+  @After
+  public void tearDown(){
+    producer.disconnect();
+  }
+  
   @Test
   public void testProducer_CanSendMessage(){
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Producer producer = new Producer(channel, QUEUE_NAME);
-      
-    String message = "Hello Queue";
-    producer.sendSingleMessage(message);
-    producer.disconnect();
+    try{
+      String message = "Hello Queue";
+      producer.sendSingleMessage(message);
+    } catch(RuntimeException e){
+      Assert.fail("Unable to send message. " + e.getMessage());
+    }
   }
   
   @Test(expected=IllegalArgumentException.class)
   public void testProducer_CantSendNullObject() throws IOException{
     String message = null;
-
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Producer producer = new Producer(channel, QUEUE_NAME);
     producer.sendSingleMessage(message);
-    producer.disconnect();
   }
 
   @Test
   public void testConsumer_CanReceiveShortString() {
     String message = "Hello Queue";
     
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Producer producer = new Producer(channel, QUEUE_NAME);
     producer.sendSingleMessage(message);
     
     Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
     Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
     Assert.assertEquals(message, consumer.receiveSingleMessage());
     
-    producer.disconnect();
     consumer.disconnect();
   }
   
@@ -52,15 +60,12 @@ public class SinglePointMessagingTest {
   public void testConsumer_CanReceiveEmptyString(){
     String message = "";
     
-    Channel channel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
-    Producer producer = new Producer(channel, QUEUE_NAME);
     producer.sendSingleMessage(message);
     
     Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
     Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
     Assert.assertEquals("", consumer.receiveSingleMessage());
     
-    producer.disconnect();
     consumer.disconnect();
   }
 }

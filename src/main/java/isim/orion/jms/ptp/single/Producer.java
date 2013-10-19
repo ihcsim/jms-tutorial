@@ -1,8 +1,5 @@
 package isim.orion.jms.ptp.single;
 
-import java.io.IOException;
-
-import com.rabbitmq.client.Channel;
 
 /**
  * Sends a single message to the message queue.
@@ -11,36 +8,24 @@ import com.rabbitmq.client.Channel;
  */
 public class Producer {
   
-  private Channel channel;
-  private String queue;
+  private Tunnel tunnel;
   
-  public Producer(Channel channel, String queue) {
-    this.channel = channel;
-    this.queue = queue;
+  public Producer(Tunnel tunnel, String queue) {
+    this.tunnel = tunnel;
   }
   
   public void sendSingleMessage(String message) {
-    try{
-      if(message == null)
-        throw new IllegalArgumentException();
-      channel.basicPublish("", queue, null, message.getBytes());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    tunnel.publish(message);
   }
   
   public boolean isConnected() {
-    if(channel == null)
+    if(tunnel == null)
       return false;
-    return channel.isOpen();
+    return tunnel.isOpen();
   }
   
   public void disconnect() {
-    try {
-      if(channel != null)
-        channel.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    if(tunnel != null)
+      tunnel.close();
   }
 }
