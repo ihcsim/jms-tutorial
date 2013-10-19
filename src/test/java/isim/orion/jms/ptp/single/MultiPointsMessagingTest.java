@@ -6,8 +6,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.rabbitmq.client.Channel;
-
 public class MultiPointsMessagingTest {
   
   private static final String DEFAULT_HOST = "localhost";
