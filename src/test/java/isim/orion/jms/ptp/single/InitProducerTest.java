@@ -15,15 +15,13 @@ public class InitProducerTest {
   
   @Test
   public void canConnectProducerToQueueTest(){
-    Tunnel tunnel = Tunnel.newInstance(QUEUE_NAME, DEFAULT_HOST);
-    Producer producer = new Producer(tunnel, QUEUE_NAME);
+    Producer producer = new Producer(QUEUE_NAME, DEFAULT_HOST);
     Assert.assertTrue(producer.isConnected());
   }
   
   @Test
   public void canDisconnectProducerFromQueueTest(){
-    Tunnel tunnel = Tunnel.newInstance(QUEUE_NAME, DEFAULT_HOST);
-    Producer producer = new Producer(tunnel, QUEUE_NAME);
+    Producer producer = new Producer(QUEUE_NAME, DEFAULT_HOST);
     producer.disconnect();
     Assert.assertTrue(!producer.isConnected());
   }

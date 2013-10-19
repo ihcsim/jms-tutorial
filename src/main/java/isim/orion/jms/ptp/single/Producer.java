@@ -10,8 +10,8 @@ public class Producer {
   
   private Tunnel tunnel;
   
-  public Producer(Tunnel tunnel, String queue) {
-    this.tunnel = tunnel;
+  public Producer(String queue, String host) {
+    this.tunnel = Tunnel.newInstance(queue, host);
   }
   
   public void send(String message) {

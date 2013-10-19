@@ -16,8 +16,7 @@ public class MultiPointsMessagingTest {
   @Test
   public void canSendToMultiPointsTest(){
     try{
-      Tunnel tunnel = Tunnel.newInstance(QUEUE_NAME, DEFAULT_HOST);
-      Producer producer = new Producer(tunnel, QUEUE_NAME);
+      Producer producer = new Producer(QUEUE_NAME, DEFAULT_HOST);
       
       for(String message : generateMultipleFakeMessages())
         producer.send(message);

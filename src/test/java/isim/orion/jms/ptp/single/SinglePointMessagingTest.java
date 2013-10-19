@@ -18,8 +18,7 @@ public class SinglePointMessagingTest {
   
   @Before
   public void setUp(){
-    Tunnel tunnel = Tunnel.newInstance(QUEUE_NAME, DEFAULT_HOST);
-    producer = new Producer(tunnel, QUEUE_NAME);
+    producer = new Producer(QUEUE_NAME, DEFAULT_HOST);
   }
   
   @After
