@@ -31,7 +31,7 @@ public class SinglePointMessagingTest {
   public void testProducer_CanSendMessage(){
     try{
       String message = "Hello Queue";
-      producer.sendSingleMessage(message);
+      producer.send(message);
     } catch(RuntimeException e){
       Assert.fail("Unable to send message. " + e.getMessage());
     }
@@ -40,14 +40,14 @@ public class SinglePointMessagingTest {
   @Test(expected=IllegalArgumentException.class)
   public void testProducer_CantSendNullObject() throws IOException{
     String message = null;
-    producer.sendSingleMessage(message);
+    producer.send(message);
   }
 
   @Test
   public void testConsumer_CanReceiveShortString() {
     String message = "Hello Queue";
     
-    producer.sendSingleMessage(message);
+    producer.send(message);
     
     Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
     Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);
@@ -60,7 +60,7 @@ public class SinglePointMessagingTest {
   public void testConsumer_CanReceiveEmptyString(){
     String message = "";
     
-    producer.sendSingleMessage(message);
+    producer.send(message);
     
     Channel consumerChannel = ChannelFactory.open(QUEUE_NAME, DEFAULT_HOST);
     Consumer consumer = new Consumer(consumerChannel, QUEUE_NAME);

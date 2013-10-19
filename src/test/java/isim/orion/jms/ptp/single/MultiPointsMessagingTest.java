@@ -20,7 +20,7 @@ public class MultiPointsMessagingTest {
       Producer producer = new Producer(tunnel, QUEUE_NAME);
       
       for(String message : generateMultipleFakeMessages())
-        producer.sendSingleMessage(message);
+        producer.send(message);
       
 //      int numExpectedMsgs = messages.size();
 //      for(int i = 0; i < numExpectedMsgs; i++) {

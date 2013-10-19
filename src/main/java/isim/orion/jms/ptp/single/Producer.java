@@ -14,7 +14,7 @@ public class Producer {
     this.tunnel = tunnel;
   }
   
-  public void sendSingleMessage(String message) {
+  public void send(String message) {
     tunnel.publish(message);
   }
   
