@@ -22,7 +22,7 @@ public class MultiPointsMessagingTest {
 //      int numExpectedMsgs = messages.size();
 //      for(int i = 0; i < numExpectedMsgs; i++) {
       Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
-      System.out.println("Message Received: " + consumer.receiveSingleMessage());
+      System.out.println("Message Received: " + consumer.receive());
       consumer.disconnect();
 //     }
       producer.disconnect();

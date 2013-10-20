@@ -1,5 +1,7 @@
 package isim.orion.jms.ptp.single;
 
+import java.util.List;
+
 
 /**
  * Reads a single message from the message queue.
@@ -18,7 +20,7 @@ public class Consumer {
     this.tunnel = tunnel;
   }
 
-  public String receiveSingleMessage() {
+  public List<String> receive() {
     return tunnel.receive();
   }
 

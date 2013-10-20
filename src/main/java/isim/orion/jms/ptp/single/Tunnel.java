@@ -1,6 +1,8 @@
 package isim.orion.jms.ptp.single;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
@@ -41,7 +43,8 @@ public class Tunnel {
     }
   }
 
-  public String receive() {
+  public List<String> receive() {
+    List<String> messages = new ArrayList<String>();
     try{
       // callback to buffer the messages
       QueueingConsumer queueConsumer = new QueueingConsumer(rabbitMQChannel);
@@ -49,7 +52,8 @@ public class Tunnel {
       
       // consumer remains in suspend until message arrives
       QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
-      return new String(delivery.getBody());
+      messages.add(new String(delivery.getBody()));
+      return messages;
     } catch(Exception e){
       throw new RuntimeException(e);
     }

@@ -1,5 +1,7 @@
 package isim.orion.jms.ptp.single;
 
+import java.util.List;
+
 
 /**
  * Sends a single message to the message queue.
@@ -16,6 +18,11 @@ public class Producer {
   
   public void send(String message) {
     tunnel.publish(message);
+  }
+  
+  public void send(List<String> messages) {
+    for(String message : messages)
+      send(message);
   }
   
   public boolean isConnected() {
