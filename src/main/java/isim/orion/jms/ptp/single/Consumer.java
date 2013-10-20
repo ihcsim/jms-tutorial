@@ -20,7 +20,7 @@ public class Consumer {
     this.tunnel = tunnel;
   }
   
-  public List<String> receive() {
+  public String receive() {
     return tunnel.receive();
   }
 

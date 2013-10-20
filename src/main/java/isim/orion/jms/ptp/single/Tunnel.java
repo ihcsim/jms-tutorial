@@ -51,8 +51,7 @@ public class Tunnel {
     }
   }
   
-  public List<String> receive() {
-    List<String> messages = new ArrayList<String>();
+  public String receive() {
     try{
       // callback to buffer the messages
       QueueingConsumer queueConsumer = new QueueingConsumer(rabbitMQChannel);
@@ -60,8 +59,7 @@ public class Tunnel {
         
       // consumer remains in suspend until message arrives
       QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
-      messages.add(new String(delivery.getBody()));
-      return messages;
+      return new String(delivery.getBody());
     } catch(Exception e){
       throw new RuntimeException(e);
     }

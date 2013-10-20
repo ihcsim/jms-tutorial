@@ -61,14 +61,14 @@ public class SinglePointMessagingTest {
   public void testConsumer_CanReceiveString() {
     String message = "Hello Queue";
     producer.send(message);
-    Assert.assertEquals(message, consumer.receive().get(0));
+    Assert.assertEquals(message, consumer.receive());
   }
   
   @Test
   public void testConsumer_CanReceiveEmptyString(){
     String message = "";
     producer.send(message);
-    Assert.assertEquals("", consumer.receive().get(0));
+    Assert.assertEquals("", consumer.receive());
   }
   
   @Test
