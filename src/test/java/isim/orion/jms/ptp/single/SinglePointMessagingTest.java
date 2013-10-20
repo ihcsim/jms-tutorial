@@ -25,6 +25,8 @@ public class SinglePointMessagingTest {
   
   @After
   public void tearDown(){
+    producer.purgeQueue();
+    consumer.purgeQueue();
     producer.disconnect();
     consumer.disconnect();
   }
@@ -56,7 +58,7 @@ public class SinglePointMessagingTest {
   }
   
   @Test
-  public void testConsumer_CanReceiveShortString() {
+  public void testConsumer_CanReceiveString() {
     String message = "Hello Queue";
     producer.send(message);
     Assert.assertEquals(message, consumer.receive().get(0));
@@ -69,10 +71,16 @@ public class SinglePointMessagingTest {
     Assert.assertEquals("", consumer.receive().get(0));
   }
   
+  @Test
   public void testConsumer_CanReceiveMultipleMessages(){
     List<String> expectedMessages = generateMultipleFakeMessages();
     producer.send(expectedMessages);
-    List<String> actualMessages = consumer.receive();
+    int timeout = 2000;
+    List<String> actualMessages = consumer.receive(timeout);
+    
+    int expectedNumMessages = expectedMessages.size();
+    int actualNumMessages = actualMessages.size();
+    Assert.assertEquals(expectedNumMessages, actualNumMessages);
   }
   
   private List<String> generateMultipleFakeMessages() {

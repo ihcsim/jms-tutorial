@@ -35,4 +35,8 @@ public class Producer {
     if(tunnel != null)
       tunnel.close();
   }
+
+  public void purgeQueue() {
+    tunnel.purgeQueue();
+  }
 }

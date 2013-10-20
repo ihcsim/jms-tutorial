@@ -19,9 +19,13 @@ public class Consumer {
   public Consumer(Tunnel tunnel, String queue){
     this.tunnel = tunnel;
   }
-
+  
   public List<String> receive() {
     return tunnel.receive();
+  }
+
+  public List<String> receive(int timeout) {
+    return tunnel.receive(timeout);
   }
 
   public void disconnect() {
@@ -30,5 +34,9 @@ public class Consumer {
   
   public boolean isConnected() {
     return tunnel.isOpen();
+  }
+
+  public void purgeQueue() {
+    tunnel.purgeQueue();
   }
 }

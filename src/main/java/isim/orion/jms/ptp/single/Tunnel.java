@@ -34,6 +34,14 @@ public class Tunnel {
   public boolean isOpen() {
     return rabbitMQChannel.isOpen();
   }
+  
+  public void purgeQueue(){
+    try {
+      rabbitMQChannel.queuePurge(queue);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   public void close() {
     try {
@@ -42,19 +50,38 @@ public class Tunnel {
       throw new RuntimeException(e);
     }
   }
-
+  
   public List<String> receive() {
     List<String> messages = new ArrayList<String>();
     try{
       // callback to buffer the messages
       QueueingConsumer queueConsumer = new QueueingConsumer(rabbitMQChannel);
       rabbitMQChannel.basicConsume(queue, true, queueConsumer);
-      
+        
       // consumer remains in suspend until message arrives
       QueueingConsumer.Delivery delivery = queueConsumer.nextDelivery();
       messages.add(new String(delivery.getBody()));
       return messages;
     } catch(Exception e){
+      throw new RuntimeException(e);
+    }
+  }
+
+  public List<String> receive(int timeout) {
+    List<String> messages = new ArrayList<String>();
+    try{
+      QueueingConsumer queueConsumer = new QueueingConsumer(rabbitMQChannel);
+      rabbitMQChannel.basicConsume(queue, true, queueConsumer);
+      QueueingConsumer.Delivery delivery = null;
+      while(true){
+        delivery = queueConsumer.nextDelivery(timeout);
+        if(delivery == null)
+          break;
+        messages.add(new String(delivery.getBody()));
+      } 
+      return messages;
+    } catch(Exception e){
+      e.printStackTrace();
       throw new RuntimeException(e);
     }
   }
