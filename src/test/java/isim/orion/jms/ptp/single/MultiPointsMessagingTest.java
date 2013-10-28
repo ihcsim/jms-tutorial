@@ -16,15 +16,14 @@ public class MultiPointsMessagingTest {
     try{
       Producer producer = new Producer(QUEUE_NAME, DEFAULT_HOST);
       
-      for(String message : generateMultipleFakeMessages())
+      List<String> messages = generateMultipleFakeMessages();
+      for(String message : messages)
         producer.send(message);
-      
-//      int numExpectedMsgs = messages.size();
-//      for(int i = 0; i < numExpectedMsgs; i++) {
+
+
       Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
       System.out.println("Message Received: " + consumer.receive());
       consumer.disconnect();
-//     }
       producer.disconnect();
     } catch (Exception e) {
       e.printStackTrace();
