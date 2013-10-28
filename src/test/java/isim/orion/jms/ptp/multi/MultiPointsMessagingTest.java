@@ -1,4 +1,7 @@
-package isim.orion.jms.ptp.single;
+package isim.orion.jms.ptp.multi;
+
+import isim.orion.jms.ptp.single.Consumer;
+import isim.orion.jms.ptp.single.Producer;
 
 import java.util.ArrayList;
 import java.util.List;
