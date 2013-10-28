@@ -1,10 +1,12 @@
 package isim.orion.jms.ptp.multi;
 
-import isim.orion.jms.ptp.single.Consumer;
 import isim.orion.jms.ptp.single.Producer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,21 +15,29 @@ public class MultiPointsMessagingTest {
   
   private static final String DEFAULT_HOST = "localhost";
   private final static String QUEUE_NAME = "test-queue";
+  private static final int CONSUMERS_COUNT = 5;
 
   @Test
   public void canSendToMultiPointsTest(){
     try{
       Producer producer = new Producer(QUEUE_NAME, DEFAULT_HOST);
-      
       List<String> messages = generateMultipleFakeMessages();
       for(String message : messages)
         producer.send(message);
 
-
-      Consumer consumer = new Consumer(QUEUE_NAME, DEFAULT_HOST);
-      System.out.println("Message Received: " + consumer.receive());
-      consumer.disconnect();
-      producer.disconnect();
+      ExecutorService pool = Executors.newFixedThreadPool(CONSUMERS_COUNT);
+      List<Future<Integer>> totalNumMessages = new ArrayList<Future<Integer>>();
+      for(int i = 0; i < CONSUMERS_COUNT; i++){
+        Future<Integer> numMessages = pool.submit(new ConsumerWorker(QUEUE_NAME, DEFAULT_HOST));
+        totalNumMessages.add(numMessages);
+      }
+      
+      int actualNumMessages = 0;
+      for(Future<Integer> numMessages : totalNumMessages)
+        actualNumMessages += numMessages.get();
+      int expectedNumMessages = messages.size();
+      
+      Assert.assertEquals(expectedNumMessages, actualNumMessages);
     } catch (Exception e) {
       e.printStackTrace();
       Assert.fail("Fail to send messages to multiple consumers. " + e.getMessage());
